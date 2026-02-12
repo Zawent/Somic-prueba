@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             TipoDocumentoSeeder::class,
             UserSeeder::class,
             ClienteSeeder::class,
+            ArticuloSeeder::class,
         ]);
         
         User::factory()->create([
