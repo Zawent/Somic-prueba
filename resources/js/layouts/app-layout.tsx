@@ -43,7 +43,7 @@ export default function AppLayout({ children }: Props) {
                 <aside className="w-64 bg-white dark:bg-zinc-900 border-r border-slate-200 dark:border-zinc-800 flex flex-col">
                     
                     <div className="p-6">
-                        <img src="/logoSomic.png" alt="Logo" className="w-60" />
+                        <img src="/logoSomic.png" alt="Logo" className="w-60 invert dark:invert-0"/>
                     </div>
 
                     <nav className="flex-1 px-4 space-y-1 mt-4">
@@ -69,7 +69,7 @@ export default function AppLayout({ children }: Props) {
                         </Link>
 
                         <Link
-                            href="#"
+                            href="/articulos"
                             className={navLinkClass('/articulos')}
                         >
                             <span className="material-icons-outlined mr-3 text-lg">
