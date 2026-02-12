@@ -77,6 +77,15 @@ export default function Index({ clientes }: Props) {
                                         >
                                             Editar
                                         </Link>
+                                        <Link
+                                            href={`/clientes/${cliente.id}`}
+                                            method="delete"
+                                            as="button"
+                                            className="text-red-600 dark:text-red-400 hover:underline font-medium pl-4"
+                                            onBefore={() => confirm('¿Estás seguro de eliminar este cliente?')}
+                                        >
+                                            Eliminar
+                                        </Link>
                                     </td>
                                 </tr>
                             ))}

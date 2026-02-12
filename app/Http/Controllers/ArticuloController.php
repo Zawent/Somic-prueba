@@ -80,4 +80,17 @@ class ArticuloController extends Controller
             ->route('articulos.index')
             ->with('success', 'Artículo eliminado correctamente');
     }
+
+    public function autocompleteArticulos(Request $request)
+    {   
+        $search = $request->search;
+
+        $articulos = Articulo::where('codigo', 'like', "%{$search}%")
+            ->orWhere('nombre', 'like', "%{$search}%")
+            ->limit(5)
+            ->get();
+
+        return response()->json($articulos);
+    }
+
 }

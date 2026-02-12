@@ -9,9 +9,6 @@ use Inertia\Inertia;
 
 class ClienteController extends Controller
 {
-    /**
-     * Listado de clientes
-     */
     public function index()
     {
         $clientes = Cliente::with('tipoDocumento')
@@ -23,9 +20,6 @@ class ClienteController extends Controller
         ]);
     }
 
-    /**
-     * Formulario crear
-     */
     public function create()
     {
         $tiposDocumento = TipoDocumento::where('activo', true)->get();
@@ -35,9 +29,6 @@ class ClienteController extends Controller
         ]);
     }
 
-    /**
-     * Guardar cliente
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -55,9 +46,6 @@ class ClienteController extends Controller
             ->with('success', 'Cliente creado correctamente');
     }
 
-    /**
-     * Mostrar cliente
-     */
     public function show(Cliente $cliente)
     {
         $cliente->load('tipoDocumento');
@@ -67,9 +55,6 @@ class ClienteController extends Controller
         ]);
     }
 
-    /**
-     * Formulario editar
-     */
     public function edit(Cliente $cliente)
     {
         $tiposDocumento = TipoDocumento::where('activo', true)->get();
@@ -80,9 +65,6 @@ class ClienteController extends Controller
         ]);
     }
 
-    /**
-     * Actualizar cliente
-     */
     public function update(Request $request, Cliente $cliente)
     {
         $validated = $request->validate([
@@ -100,9 +82,6 @@ class ClienteController extends Controller
             ->with('success', 'Cliente actualizado correctamente');
     }
 
-    /**
-     * Eliminar cliente
-     */
     public function destroy(Cliente $cliente)
     {
         $cliente->delete();
@@ -111,4 +90,17 @@ class ClienteController extends Controller
             ->route('clientes.index')
             ->with('success', 'Cliente eliminado correctamente');
     }
+
+    public function autocompleteClientes(Request $request)
+    {
+        $search = $request->search;
+
+        $clientes = Cliente::where('documento', 'like', "%{$search}%")
+            ->orWhere('nombre', 'like', "%{$search}%")
+            ->limit(5)
+            ->get();
+
+        return response()->json($clientes);
+    }
+
 }

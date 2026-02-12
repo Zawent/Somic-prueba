@@ -79,7 +79,7 @@ export default function AppLayout({ children }: Props) {
                         </Link>
 
                         <Link
-                            href="#"
+                            href="/facturas"
                             className={navLinkClass('/facturas')}
                         >
                             <span className="material-icons-outlined mr-3 text-lg">
