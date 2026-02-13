@@ -1,4 +1,4 @@
-import { Head, Link, usePage } from '@inertiajs/react';
+import { Head, Link, usePage, router } from '@inertiajs/react';
 import { useState } from 'react';
 import { dashboard } from '@/routes';
 import type { BreadcrumbItem, SharedData } from '@/types';
@@ -12,12 +12,18 @@ export default function AppLayout({ children }: Props) {
     const page = usePage<SharedData>();
     const { auth } = page.props;
     const currentUrl = page.url;
+    const [isUserMenuOpen, setIsUserMenuOpen] = useState(false); // 👈 estado para dropdown
+
 
     const [isDark, setIsDark] = useState(false);
 
     const toggleTheme = () => {
         setIsDark(!isDark);
         document.documentElement.classList.toggle('dark');
+    };
+
+    const handleLogout = () => {
+        router.post('/logout'); // 👈 ruta que Laravel Fortify ya tiene
     };
 
     const navLinkClass = (path: string) =>
@@ -109,18 +115,53 @@ export default function AppLayout({ children }: Props) {
                             Resumen Empresarial
                         </h1>
 
-                        <div className="flex items-center space-x-4">
+                        <div className="flex items-center space-x-4 relative">
+                            {/* Notificaciones */}
                             <button className="p-2 text-slate-500 hover:text-black dark:text-slate-400 dark:hover:text-white transition-colors relative">
-                                <span className="material-icons-outlined">
-                                    notifications
-                                </span>
+                                <span className="material-icons-outlined">notifications</span>
                                 <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
                             </button>
 
-                            <div className="h-8 w-8 rounded-full bg-slate-200 dark:bg-zinc-700 flex items-center justify-center">
-                                <span className="text-xs font-bold text-slate-600 dark:text-slate-300">
-                                    {auth.user?.name?.charAt(0).toUpperCase() || 'U'}
-                                </span>
+                            {/* Menú de usuario */}
+                            <div className="relative">
+                                <button
+                                    onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                                    className="h-8 w-8 rounded-full bg-slate-200 dark:bg-zinc-700 flex items-center justify-center hover:ring-2 hover:ring-slate-300 dark:hover:ring-zinc-600 transition-all"
+                                >
+                                    <span className="text-xs font-bold text-slate-600 dark:text-slate-300">
+                                        {auth.user?.name?.charAt(0).toUpperCase() || 'U'}
+                                    </span>
+                                </button>
+
+                                {isUserMenuOpen && (
+                                    <>
+                                        {/* Overlay para cerrar al hacer clic fuera */}
+                                        <div
+                                            className="fixed inset-0 z-40"
+                                            onClick={() => setIsUserMenuOpen(false)}
+                                        ></div>
+
+                                        {/* Dropdown */}
+                                        <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-zinc-800 rounded-lg shadow-lg border border-slate-200 dark:border-zinc-700 py-1 z-50">
+                                            <div className="px-4 py-3 border-b border-slate-100 dark:border-zinc-700">
+                                                <p className="text-sm font-semibold text-slate-800 dark:text-white">
+                                                    {auth.user?.name}
+                                                </p>
+                                                <p className="text-xs text-slate-500 dark:text-slate-400 truncate">
+                                                    {auth.user?.email}
+                                                </p>
+                                            </div>
+
+                                            <button
+                                                onClick={handleLogout}
+                                                className="w-full flex items-center px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20"
+                                            >
+                                                <span className="material-icons-outlined text-lg mr-2">logout</span>
+                                                Cerrar sesión
+                                            </button>
+                                        </div>
+                                    </>
+                                )}
                             </div>
                         </div>
                     </header>
