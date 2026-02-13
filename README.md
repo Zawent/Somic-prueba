@@ -25,7 +25,7 @@ Asegúrate de tener instalado lo siguiente en tu entorno local:
 ### 1. Clonar el repositorio
 
 ```bash
-git clone [https://github.com/tu-usuario/Somic-prueba.git](https://github.com/tu-usuario/Somic-prueba.git)
+git clone [https://github.com/Zawent/Somic-prueba.git]
 cd Somic-prueba
 
 ```
