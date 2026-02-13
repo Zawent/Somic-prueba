@@ -117,9 +117,6 @@ class Factura extends Model
             && $this->fecha_vencimiento->isPast();
     }
 
-    /**
-     * Obtiene los días de vencimiento (negativos si está vencida)
-     */
     public function diasParaVencimiento(): int
     {
         if (!$this->fecha_vencimiento) {
@@ -127,6 +124,16 @@ class Factura extends Model
         }
         
         return Carbon::today()->diffInDays($this->fecha_vencimiento, false);
+    }
+
+    public function getTotalAttribute()
+    {
+        return $this->items()
+            ->where('es_venta', true)
+            ->get()
+            ->sum(function ($item) {
+                return $item->cantidad * $item->precio_venta_unitario - $item->descuento;
+            });
     }
 
     

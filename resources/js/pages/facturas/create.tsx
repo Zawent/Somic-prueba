@@ -428,7 +428,7 @@ export default function Create({ numero_factura, fecha_actual }: Props) {
                                                 <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider dark:text-gray-400">
                                                     Disponible
                                                 </p>
-                                                <p className="text-sm font-medium text-blue-600 font-bold">
+                                                <p className="text-sm text-blue-600 font-bold">
                                                     ${Number(cliente.cupo_disponible).toLocaleString('es-CO', {
                                                         minimumFractionDigits: 2,
                                                     })}
